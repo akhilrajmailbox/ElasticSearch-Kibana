@@ -1,0 +1,52 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: es-apm
+  namespace: elasticsearch
+  labels:
+    component: elasticsearch
+    role: apm
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        component: elasticsearch
+        role: apm
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: agentpool
+                  operator: In
+                  values:
+                  - agentpool
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - args:
+        - "-c"
+        - "apm-server -c /usr/share/apm-server/apm-server.yml -e"
+        command: 
+        - /bin/bash
+        name: es-apm
+        imagePullPolicy: Always
+        image: akhilrajmailbox/elasticsearch:apm-server-6.2.4
+        # image: elastic/apm-server:6.6.1
+        volumeMounts:
+        - name: apm-server.yml
+          mountPath: /usr/share/apm-server/
+          readOnly: true
+        resources:
+          limits:
+            cpu: 2
+        ports:
+        - containerPort: 8200
+          name: http
+      volumes:
+      - name: apm-server.yml
+        configMap:
+          name: apm-server-cm

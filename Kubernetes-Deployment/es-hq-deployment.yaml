@@ -1,0 +1,30 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: es-hq
+  namespace: elasticsearch
+  labels:
+    component: elasticsearch
+    role: hq
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: elasticsearch
+        role: hq
+    spec:
+      containers:
+      - name: es-hq
+        imagePullPolicy: Always
+        image: akhilrajmailbox/elasticsearch:hq-release-v3.4.0
+        # image: elastichq/elasticsearch-hq:release-v3.4.0
+        env:
+        - name: HQ_DEFAULT_URL
+          value: http://elasticsearch:9200
+        resources:
+          limits:
+            cpu: 0.5
+        ports:
+        - containerPort: 5000
+          name: http

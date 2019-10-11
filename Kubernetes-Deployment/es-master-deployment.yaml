@@ -1,0 +1,87 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: es-master
+  namespace: elasticsearch
+  labels:
+    component: elasticsearch
+    role: master
+spec:
+  serviceName: elasticsearch-master
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        component: elasticsearch
+        role: master
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: agentpool
+                  operator: In
+                  values:
+                  - agentpool
+              topologyKey: kubernetes.io/hostname
+      initContainers:
+      - name: init-sysctl
+        image: busybox:1.27.2
+        command:
+        - sysctl
+        - -w
+        - vm.max_map_count=262144
+        securityContext:
+          privileged: true
+      containers:
+      - name: es-master
+        imagePullPolicy: Always
+        # image: akhilrajmailbox/elasticsearch:elasticsearch-6.2.4
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+        # image: quay.io/pires/docker-elasticsearch-kubernetes:6.2.4
+        env:
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: MASTER_NAME
+          value: es-master-0
+        - name: CLUSTER_NAME
+          value: my-es
+        - name: NUMBER_OF_MASTERS
+          value: "2"
+        - name: NODE_MASTER
+          value: "true"
+        - name: NODE_INGEST
+          value: "false"
+        - name: NODE_DATA
+          value: "false"
+        - name: HTTP_ENABLE
+          value: "false"
+        - name: ES_JAVA_OPTS
+          value: -Xms1g -Xmx1g
+        - name: PROCESSORS
+          valueFrom:
+            resourceFieldRef:
+              resource: limits.cpu
+        resources:
+          limits:
+            cpu: 1
+            # cpu: 500m
+        ports:
+        - containerPort: 9300
+          name: transport
+        volumeMounts:
+        - name: storage
+          mountPath: /data
+      volumes:
+          - emptyDir:
+              medium: ""
+            name: "storage"
