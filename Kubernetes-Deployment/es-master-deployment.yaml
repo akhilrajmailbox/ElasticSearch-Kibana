@@ -1,5 +1,5 @@
 apiVersion: apps/v1beta1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: es-master
   namespace: elasticsearch
@@ -7,7 +7,6 @@ metadata:
     component: elasticsearch
     role: master
 spec:
-  serviceName: elasticsearch-master
   replicas: 3
   template:
     metadata:
@@ -39,8 +38,7 @@ spec:
       containers:
       - name: es-master
         imagePullPolicy: Always
-        # image: akhilrajmailbox/elasticsearch:elasticsearch-6.2.4
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+        image: akhilrajmailbox/elasticsearch:elasticsearch-6.8.0
         # image: quay.io/pires/docker-elasticsearch-kubernetes:6.2.4
         env:
         - name: NAMESPACE
@@ -51,8 +49,6 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        - name: MASTER_NAME
-          value: es-master-0
         - name: CLUSTER_NAME
           value: my-es
         - name: NUMBER_OF_MASTERS

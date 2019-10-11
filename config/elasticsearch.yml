@@ -27,9 +27,8 @@ http:
     enabled: ${HTTP_CORS_ENABLE}
     allow-origin: ${HTTP_CORS_ALLOW_ORIGIN}
 
-# discovery:
-#   zen:
-#     minimum_master_nodes: ${NUMBER_OF_MASTERS}
-cluster.initial_master_nodes: ${MASTER_NAME}
+discovery:
+  zen:
+    minimum_master_nodes: ${NUMBER_OF_MASTERS}
 
 xpack.ml.enabled: false

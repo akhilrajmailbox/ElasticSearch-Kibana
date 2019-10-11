@@ -17,8 +17,7 @@ spec:
       containers:
       - name: es-kibana
         imagePullPolicy: Always
-        # image: akhilrajmailbox/elasticsearch:kibana-oss-6.2.4
-        image: docker.elastic.co/kibana/kibana:7.4.0
+        image: akhilrajmailbox/elasticsearch:kibana-oss-6.8.0
         # image: docker.elastic.co/kibana/kibana-oss:6.2.2
         env:
         - name: CLUSTER_NAME

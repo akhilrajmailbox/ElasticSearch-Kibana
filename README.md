@@ -4,7 +4,7 @@
 
 * Alpine Linux 3.8
 * OpenJDK JRE 8u171
-* Elasticsearch 7.4.0
+* Elasticsearch 6.8.0
 
 **Note:** `x-pack-ml` module is forcibly disabled as it's not supported on Alpine Linux.
 
