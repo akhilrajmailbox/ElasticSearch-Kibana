@@ -1,18 +1,18 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: es-master
+  name: es-client
   namespace: elasticsearch
   labels:
     component: elasticsearch
-    role: master
+    role: client
 spec:
-  replicas: 3
+  replicas: 2
   template:
     metadata:
       labels:
         component: elasticsearch
-        role: master
+        role: client
     spec:
       affinity:
         podAntiAffinity:
@@ -36,9 +36,9 @@ spec:
         securityContext:
           privileged: true
       containers:
-      - name: es-master
+      - name: es-client
         imagePullPolicy: Always
-        image: akhilrajmailbox/elasticsearch:elasticsearch-6.8.0
+        image: akhilrajmailbox/elasticsearch:elasticsearch-6.2.4
         # image: quay.io/pires/docker-elasticsearch-kubernetes:6.2.4
         env:
         - name: NAMESPACE
@@ -51,27 +51,28 @@ spec:
               fieldPath: metadata.name
         - name: CLUSTER_NAME
           value: my-es
-        - name: NUMBER_OF_MASTERS
-          value: "2"
         - name: NODE_MASTER
-          value: "true"
-        - name: NODE_INGEST
           value: "false"
         - name: NODE_DATA
           value: "false"
         - name: HTTP_ENABLE
-          value: "false"
+          value: "true"
         - name: ES_JAVA_OPTS
-          value: -Xms1g -Xmx1g
+          value: "-Xms2G -Xmx2G"
+        - name: NETWORK_HOST
+          value: _site_,_lo_
         - name: PROCESSORS
           valueFrom:
             resourceFieldRef:
               resource: limits.cpu
         resources:
+          requests:
+            cpu: 500m
           limits:
             cpu: 1
-            # cpu: 500m
         ports:
+        - containerPort: 9200
+          name: http
         - containerPort: 9300
           name: transport
         volumeMounts:
@@ -80,4 +81,4 @@ spec:
       volumes:
           - emptyDir:
               medium: ""
-            name: "storage"
+            name: storage

@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: kibana
+  name: apm
   namespace: elasticsearch
   annotations: 
     service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "datamall-dev-publicsubnet1"
+    # service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "subnet1"
   labels:
     component: elasticsearch
-    role: kibana
+    role: apm
 spec:
   selector:
     component: elasticsearch
-    role: kibana
+    role: apm
   ports:
   - name: http
     port: 80
-    targetPort: 5601
+    targetPort: 8200
     protocol: TCP
   type: LoadBalancer

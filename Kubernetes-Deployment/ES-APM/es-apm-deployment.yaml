@@ -29,7 +29,7 @@ spec:
       containers:
       - args:
         - "-c"
-        - "apm-server -c /usr/share/apm-server/apm-server.yml -e"
+        - "/usr/share/apm-server/apm-server -c /usr/share/apm-server/apm-server.yml -e"
         command: 
         - /bin/bash
         name: es-apm
@@ -37,16 +37,19 @@ spec:
         image: akhilrajmailbox/elasticsearch:apm-server-6.2.4
         # image: elastic/apm-server:6.6.1
         volumeMounts:
-        - name: apm-server.yml
-          mountPath: /usr/share/apm-server/
+        - name: apm-server
+          mountPath: /usr/share/apm-server/apm-server.yml
+          subPath: apm-server.yml
           readOnly: true
         resources:
+          requests:
+            cpu: 100m
           limits:
-            cpu: 2
+            cpu: 1
         ports:
         - containerPort: 8200
           name: http
       volumes:
-      - name: apm-server.yml
+      - name: apm-server
         configMap:
           name: apm-server-cm

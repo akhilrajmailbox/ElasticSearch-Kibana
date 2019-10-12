@@ -1,30 +1,34 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: es-hq
+  name: es-kibana
   namespace: elasticsearch
   labels:
     component: elasticsearch
-    role: hq
+    role: kibana
 spec:
   replicas: 1
   template:
     metadata:
       labels:
         component: elasticsearch
-        role: hq
+        role: kibana
     spec:
       containers:
-      - name: es-hq
+      - name: es-kibana
         imagePullPolicy: Always
-        image: akhilrajmailbox/elasticsearch:hq-release-v3.4.0
-        # image: elastichq/elasticsearch-hq:release-v3.4.0
+        image: akhilrajmailbox/elasticsearch:kibana-oss-6.2.4
+        # image: docker.elastic.co/kibana/kibana-oss:6.2.2
         env:
-        - name: HQ_DEFAULT_URL
+        - name: CLUSTER_NAME
+          value: my-es
+        - name: ELASTICSEARCH_URL
           value: http://elasticsearch:9200
         resources:
+          requests:
+            cpu: 100m
           limits:
-            cpu: 0.5
+            cpu: 500m
         ports:
-        - containerPort: 5000
+        - containerPort: 5601
           name: http
