@@ -38,8 +38,7 @@ spec:
       containers:
       - name: es-master
         imagePullPolicy: Always
-        # image: akhilrajmailbox/elasticsearch:elasticsearch-6.2.4
-        image: akhilrajmailbox/elasticsearch:elasticsearch-auth-6.2.4
+        image: akhilrajmailbox/elasticsearch:elasticsearch-6.2.4
         # image: quay.io/pires/docker-elasticsearch-kubernetes:6.2.4
         env:
         - name: NAMESPACE
