@@ -28,7 +28,7 @@ spec:
         - name : KIBANA_ADMIN_PASSWORD
           valueFrom:
             configMapKeyRef:
-                name: dm-auth-cm
+                name: es-auth-cm
                 key: KIBANA_ADMIN_PASSWORD
 
         - name: CLUSTER_NAME

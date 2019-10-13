@@ -38,7 +38,8 @@ spec:
       containers:
       - name: es-client
         imagePullPolicy: Always
-        image: akhilrajmailbox/elasticsearch:elasticsearch-6.2.4
+        # image: akhilrajmailbox/elasticsearch:elasticsearch-6.2.4
+        image: akhilrajmailbox/elasticsearch:elasticsearch-auth-6.2.4
         # image: quay.io/pires/docker-elasticsearch-kubernetes:6.2.4
         env:
         - name: NAMESPACE
@@ -53,25 +54,25 @@ spec:
         - name : AUTH_CONFIG
           valueFrom:
             configMapKeyRef:
-                name: dm-auth-cm
+                name: es-auth-cm
                 key: AUTH_CONFIG
 
         - name : KIBANA_ADMIN_PASSWORD
           valueFrom:
             configMapKeyRef:
-                name: dm-auth-cm
+                name: es-auth-cm
                 key: KIBANA_ADMIN_PASSWORD
 
         - name : KIBANA_RO_PASSWORD
           valueFrom:
             configMapKeyRef:
-                name: dm-auth-cm
+                name: es-auth-cm
                 key: KIBANA_RO_PASSWORD
 
         - name : PUSHLOG_PASSWORD
           valueFrom:
             configMapKeyRef:
-                name: dm-auth-cm
+                name: es-auth-cm
                 key: PUSHLOG_PASSWORD
 
         - name: CLUSTER_NAME

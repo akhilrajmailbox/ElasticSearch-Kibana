@@ -66,6 +66,7 @@ kubectl -n elasticsearch get pods
 
 ## Deploy client nodes
 ```
+kubectl apply -f ElasticSearch/es-auth-configmap.yaml
 kubectl apply -f ElasticSearch/es-client-deployment.yaml
 kubectl apply -f ElasticSearch/es-client-service.yaml
 kubectl -n elasticsearch get pods

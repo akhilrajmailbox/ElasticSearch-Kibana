@@ -36,9 +36,9 @@ if [ ! -z "${ES_PLUGINS_INSTALL}" ]; then
 fi
 
 
-if [ ! -z "${AUTH_CONFIG}" ]; then
+if [ ! -z "${AUTH_CONFIG}" ] ; then
 
-cat << EOF >> /etc/elasticsearch/elasticsearch.yml
+cat << EOF > /elasticsearch/config/readonlyrest.yml
 
 readonlyrest:
     enable: true
