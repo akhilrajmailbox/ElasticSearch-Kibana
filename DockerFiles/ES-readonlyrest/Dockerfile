@@ -38,11 +38,11 @@ ENV PATH /elasticsearch/bin:$PATH
 WORKDIR /elasticsearch
 
 # readonlyrest configuration
-RUN export ES_TMPDIR=/elasticsearch/temp/
+ENV ES_TMPDIR=/elasticsearch/temp/
 ADD readonlyrest-1.18.7_es6.2.4.zip /elasticsearch/readonlyrest-1.18.7_es6.2.4.zip
 RUN DEBIAN_FRONTEND=noninteractive bin/elasticsearch-plugin install file:///elasticsearch/readonlyrest-1.18.7_es6.2.4.zip
 RUN rm -rf /elasticsearch/temp/ /elasticsearch/readonlyrest-1.18.7_es6.2.4.zip
-RUN unset ES_TMPDIR
+ENV ES_TMPDIR=
 
 # Copy configuration
 COPY config /elasticsearch/config
