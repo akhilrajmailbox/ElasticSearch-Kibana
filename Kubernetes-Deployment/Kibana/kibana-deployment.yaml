@@ -19,7 +19,18 @@ spec:
         imagePullPolicy: Always
         image: akhilrajmailbox/elasticsearch:kibana-oss-6.2.4
         # image: docker.elastic.co/kibana/kibana-oss:6.2.2
+        volumeMounts:
+        - name: kibana-config
+          mountPath: /opt/kibana/config/kibana.yml
+          subPath: kibana.yml
+          readOnly: true
         env:
+        - name : KIBANA_ADMIN_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+                name: dm-auth-cm
+                key: KIBANA_ADMIN_PASSWORD
+
         - name: CLUSTER_NAME
           value: my-es
         - name: ELASTICSEARCH_URL
@@ -32,3 +43,7 @@ spec:
         ports:
         - containerPort: 5601
           name: http
+      volumes:
+      - name: kibana-config
+        configMap:
+          name: kibana-config-cm

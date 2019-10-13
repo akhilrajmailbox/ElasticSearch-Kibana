@@ -49,6 +49,31 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+
+        - name : AUTH_CONFIG
+          valueFrom:
+            configMapKeyRef:
+                name: dm-auth-cm
+                key: AUTH_CONFIG
+
+        - name : KIBANA_ADMIN_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+                name: dm-auth-cm
+                key: KIBANA_ADMIN_PASSWORD
+
+        - name : KIBANA_RO_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+                name: dm-auth-cm
+                key: KIBANA_RO_PASSWORD
+
+        - name : PUSHLOG_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+                name: dm-auth-cm
+                key: PUSHLOG_PASSWORD
+
         - name: CLUSTER_NAME
           value: my-es
         - name: NODE_MASTER

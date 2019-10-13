@@ -16,6 +16,26 @@
 **Note:** `x-pack-ml` module is forcibly disabled as it's not supported on Alpine Linux.
 
 
+
+# Authentication for ElasticSearch and Kibana
+
+This kubernetes deployment by default enabling the authetication for elasticsearch and kibana. If you don't need authetication you can simply remove the `AUTH_CONFIG` environment variable.
+
+These are the default Credentials for the deployment until and unless you remove the `AUTH_CONFIG` environment variable.
+
+The Usernames are hardcoded but you can override this credentials (only passwords) by updating these environment variables from Configmap (I already gave it as an example in the deployment part) or from secrets in kubernetes
+
+---------------|---------------|---------------|---------------
+ User Name | Variable Name | Default Value | Description
+---------------|---------------|---------------|---------------
+ kibanAdmin | KIBANA_ADMIN_PASSWORD | Admin@Kibana | Have full permission on the kibana dashboard 
+ kibanaUser | KIBANA_RO_PASSWORD | Ro@Kibana | Have readonly access on kibana dashboard 
+ LogAdmin | PUSHLOG_PASSWORD | Push2ES | Password for elasticsearch authetication (used by log shippers) 
+
+
+**Note : For Kibana Auth Configiuration while deploying, you have to configure User : kibanAdmin and Pass : KIBANA_ADMIN_PASSWORD**
+
+
 # Kubernetes Deployment 
 
 kubernetes issue : [Not support new ES version](https://hub.helm.sh/charts/stable/elasticsearch)
@@ -68,6 +88,7 @@ Elastic HQ can access on this url : `http://<<es_HQ_loadbalancer_IPAddress>>`
 
 ## Deploy Kibana Server
 ```
+kubectl -n elasticsearch create configmap kibana-config-cm --from-file=kibana/kibana.yml
 kubectl apply -f kibana/kibana-deployment.yaml
 kubectl apply -f kibana/kibana-service.yaml
 kubectl -n elasticsearch get pods
