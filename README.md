@@ -12,11 +12,19 @@
 
 * Alpine Linux 3.8
 * OpenJDK JRE 8u171
-* Elasticsearch 6.2.4
+* Elasticsearch 6.2.4 -- 6.8.0
 
 **Note:** `x-pack-ml` module is forcibly disabled as it's not supported on Alpine Linux.
 
 # Kubernetes Deployment 
+
+**Note: These following environment and its default values are giving below, it is customised for dockerized deployment in K8s but will degrade the performance (MEMORY_LOCK false)**
+
+```
+MEMORY_LOCK false
+DISCOVERY_SERVICE elasticsearch-discovery
+```
+
 
 kubernetes issue : [Not support new ES version](https://hub.helm.sh/charts/stable/elasticsearch)
 

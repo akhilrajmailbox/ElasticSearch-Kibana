@@ -36,7 +36,7 @@ RUN apk add --no-cache -t .build-deps gnupg openssl \
 ENV PATH /elasticsearch/bin:$PATH
 
 WORKDIR /elasticsearch
-#RUN rm -rf /elasticsearch/modules/x-pack*
+RUN rm -rf /elasticsearch/modules/x-pack*
 
 # Copy configuration
 COPY config /elasticsearch/config
