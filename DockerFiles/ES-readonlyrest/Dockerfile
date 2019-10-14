@@ -41,7 +41,7 @@ RUN rm -rf /elasticsearch/modules/x-pack*
 # readonlyrest configuration
 ENV ES_TMPDIR=/elasticsearch/temp/
 ADD readonlyrest-1.18.7_es${ES_VERSION}.zip /elasticsearch/readonlyrest-1.18.7_es${ES_VERSION}.zip
-RUN DEBIAN_FRONTEND=noninteractive bin/elasticsearch-plugin install file:///elasticsearch/readonlyrest-1.18.7_es${ES_VERSION}.zip
+RUN yes | bin/elasticsearch-plugin install file:///elasticsearch/readonlyrest-1.18.7_es${ES_VERSION}.zip
 RUN rm -rf /elasticsearch/temp/ /elasticsearch/readonlyrest-1.18.7_es${ES_VERSION}.zip
 ENV ES_TMPDIR=
 
