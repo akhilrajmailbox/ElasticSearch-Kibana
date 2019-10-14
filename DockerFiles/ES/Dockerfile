@@ -4,7 +4,7 @@ MAINTAINER Akhil Raj
 # Export HTTP & Transport
 EXPOSE 9200 9300
 
-ENV ES_VERSION 6.2.4
+ENV ES_VERSION 6.4.2
 
 ENV DOWNLOAD_URL "https://artifacts.elastic.co/downloads/elasticsearch"
 ENV ES_TARBAL "${DOWNLOAD_URL}/elasticsearch-${ES_VERSION}.tar.gz"
@@ -36,7 +36,7 @@ RUN apk add --no-cache -t .build-deps gnupg openssl \
 ENV PATH /elasticsearch/bin:$PATH
 
 WORKDIR /elasticsearch
-RUN rm -rf /elasticsearch/modules/x-pack*
+#RUN rm -rf /elasticsearch/modules/x-pack*
 
 # Copy configuration
 COPY config /elasticsearch/config
@@ -58,7 +58,7 @@ ENV NUMBER_OF_MASTERS 1
 ENV MAX_LOCAL_STORAGE_NODES 1
 ENV SHARD_ALLOCATION_AWARENESS ""
 ENV SHARD_ALLOCATION_AWARENESS_ATTR ""
-ENV MEMORY_LOCK true
+ENV MEMORY_LOCK false
 ENV REPO_LOCATIONS ""
 ENV DISCOVERY_SERVICE elasticsearch-discovery
 
