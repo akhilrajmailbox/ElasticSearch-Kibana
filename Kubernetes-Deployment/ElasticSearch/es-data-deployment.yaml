@@ -59,15 +59,17 @@ spec:
         - name: HTTP_ENABLE
           value: "false"
         - name: ES_JAVA_OPTS
-          value: "-Xms2G -Xmx2G"
+          value: "-Xms4G -Xmx4G"
         - name: PROCESSORS
           valueFrom:
             resourceFieldRef:
               resource: limits.cpu
         resources:
           requests:
-            cpu: 500m
+            memory: "2Gi"
+            cpu: 200m
           limits:
+            memory: "6Gi"
             cpu: 2
         ports:
         - containerPort: 9300

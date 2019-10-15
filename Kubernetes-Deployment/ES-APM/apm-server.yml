@@ -6,3 +6,5 @@ apm-server:
 output:
   elasticsearch:
     hosts: elasticsearch:9200
+    username: kibanAdmin
+    password: "${KIBANA_ADMIN_PASSWORD}"

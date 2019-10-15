@@ -28,15 +28,17 @@ These are the default Credentials for the deployment until and unless you remove
 The Usernames are hardcoded but you can override this credentials (only passwords) by updating these environment variables from Configmap (I already gave it as an example in the deployment part) or from secrets in kubernetes
 
 
+**Note: API Server, Kibana Server and ES-HQ Server need kibanAdmin credentials for accessing the cluster**
+
+
 | User Name | Variable Name | Default Value | Description |
 |---------------|---------------|---------------|---------------|
-| kibanAdmin | KIBANA_ADMIN_PASSWORD | Admin@Kibana | Have full permission on the kibana dashboard |
-| kibanaUser | KIBANA_RO_PASSWORD | Ro@Kibana | Have readonly access on kibana dashboard |
+| kibanAdmin | KIBANA_ADMIN_PASSWORD | Admin@Kibana | Have full permission on the ES cluster and kibana dashboard |
+| kibanaUser | KIBANA_RO_PASSWORD | Ro@Kibana | Have readonly access on ES cluster and kibana dashboard |
 | LogAdmin | PUSHLOG_PASSWORD | Push2ES | Password for elasticsearch authetication (used by log shippers) |
 
 
 **Note : For Kibana Auth Configiuration while deploying, you have to configure User : kibanAdmin and Pass : KIBANA_ADMIN_PASSWORD**
-
 
 
 **Note:** `x-pack-ml` module is forcibly disabled as it's not supported on Alpine Linux.

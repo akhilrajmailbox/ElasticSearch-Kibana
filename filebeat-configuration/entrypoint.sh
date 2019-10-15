@@ -7,6 +7,8 @@ function es_config() {
     export ES_PORT=${ES_PORT}
     export ES_TAG_1=${ES_TAG_1}
     export ES_TAG_2=${ES_TAG_2}
+    export ES_USERNAME=${ES_USERNAME}
+    export ES_PASSWORD=${ES_PASSWORD}
     export ES_REFERENCE_NAME=${ES_REFERENCE_NAME}
     export ES_INDEX_NAME=${K8S_NAMESPACE}-${ES_REFERENCE_NAME}
 

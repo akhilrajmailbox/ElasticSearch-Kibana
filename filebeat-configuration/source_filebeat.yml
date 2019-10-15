@@ -33,6 +33,6 @@ output.elasticsearch:
   index: "${ES_INDEX_NAME}-%{+yyyy.MM.dd}"
   # Optional protocol and basic auth credentials.
   # protocol: "https"
-  # username: "elastic"
-  # password: "changeme"
+  username: "${ES_USERNAME}"
+  password: "${ES_PASSWORD}"
   

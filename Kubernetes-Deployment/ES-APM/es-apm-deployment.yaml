@@ -41,10 +41,18 @@ spec:
           mountPath: /usr/share/apm-server/apm-server.yml
           subPath: apm-server.yml
           readOnly: true
+        env:
+        - name : KIBANA_ADMIN_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+                name: es-auth-cm
+                key: KIBANA_ADMIN_PASSWORD
         resources:
           requests:
+            memory: "512Mi"
             cpu: 100m
           limits:
+            memory: "1Gi"
             cpu: 1
         ports:
         - containerPort: 8200

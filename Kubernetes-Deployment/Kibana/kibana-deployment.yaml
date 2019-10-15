@@ -19,6 +19,11 @@ spec:
         imagePullPolicy: Always
         image: akhilrajmailbox/elasticsearch:kibana-oss-6.2.4
         # image: docker.elastic.co/kibana/kibana-oss:6.2.2
+        volumeMounts:
+        - name: kibana-config
+          mountPath: /opt/kibana/config/kibana.yml
+          subPath: kibana.yml
+          readOnly: true
         env:
         - name : KIBANA_ADMIN_PASSWORD
           valueFrom:
@@ -32,9 +37,15 @@ spec:
           value: http://elasticsearch:9200
         resources:
           requests:
+            memory: "512Mi"
             cpu: 100m
           limits:
+            memory: "1Gi"
             cpu: 500m
         ports:
         - containerPort: 5601
           name: http
+      volumes:
+      - name: kibana-config
+        configMap:
+          name: kibana-config-cm
