@@ -35,6 +35,34 @@ if [ ! -z "${ES_PLUGINS_INSTALL}" ]; then
     IFS="${OLDIFS}"
 fi
 
+
+if [ ! -z "${AUTH_CONFIG}" ] ; then
+# readonlyrest configuration
+echo "yes" | bin/elasticsearch-plugin install file:///tmp/readonlyrest-1.18.7_es*.zip
+rm -rf /tmp/readonlyrest-1.18.7_es*.zip
+
+
+cat << EOF > /elasticsearch/config/readonlyrest.yml
+readonlyrest:
+    enable: true
+    response_if_req_forbidden: <h1>Forbidden</h1>
+    access_control_rules:
+    - name: Kibana Server (we trust this server side component, full access granted via HTTP authentication, this is the user have admin privilege on kibana)
+      auth_key: kibanAdmin:${KIBANA_ADMIN_PASSWORD}
+      type: allow
+    - name: Kibana Server (we trust this server side component, full access granted via HTTP authentication, this is the user for elasticsearch and kibana server connection)
+      auth_key: kibanaUser:${KIBANA_RO_PASSWORD}
+      kibana_access: ro
+      type: allow
+    - name: fluentd Client (this user can write and create its own indices, this is the user for elasticsearch and fluentd connection)
+      auth_key: LogAdmin:${PUSHLOG_PASSWORD}
+      type: allow
+      actions: ["indices:data/read/*","indices:data/write/*","indices:admin/template/*","indices:admin/create"]
+      indices: ["*"]
+EOF
+fi
+
+
 if [ ! -z "${SHARD_ALLOCATION_AWARENESS_ATTR}" ]; then
     # this will map to a file like  /etc/hostname => /dockerhostname so reading that file will get the
     #  container hostname

@@ -36,7 +36,10 @@ RUN apk add --no-cache -t .build-deps gnupg openssl \
 ENV PATH /elasticsearch/bin:$PATH
 
 WORKDIR /elasticsearch
+ADD readonlyrest-1.18.7_es${ES_VERSION}.zip /tmp/readonlyrest-1.18.7_es${ES_VERSION}.zip
+
 RUN rm -rf /elasticsearch/modules/x-pack*
+
 
 # Copy configuration
 COPY config /elasticsearch/config
@@ -61,6 +64,11 @@ ENV SHARD_ALLOCATION_AWARENESS_ATTR ""
 ENV MEMORY_LOCK false
 ENV REPO_LOCATIONS ""
 ENV DISCOVERY_SERVICE elasticsearch-discovery
+ENV AUTH_CONFIG ""
+ENV KIBANA_ADMIN_PASSWORD "Admin@Kibana"
+ENV KIBANA_RO_PASSWORD "Ro@Kibana"
+ENV PUSHLOG_PASSWORD "Push2ES"
+
 
 # Volume for Elasticsearch data
 VOLUME ["/data"]
