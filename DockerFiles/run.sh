@@ -38,9 +38,9 @@ fi
 
 if [ ! -z "${AUTH_CONFIG}" ] ; then
 # readonlyrest configuration
-echo "yes" | bin/elasticsearch-plugin install file:///tmp/readonlyrest-1.18.7_es*.zip
-rm -rf /tmp/readonlyrest-1.18.7_es*.zip
-
+echo "Configuring readonlyrest for ES version ${ES_VERSION}"
+yes | bin/elasticsearch-plugin install file:///tmp/readonlyrest-1.18.7_es${ES_VERSION}.zip
+rm -rf /tmp/readonlyrest-1.18.7_es${ES_VERSION}.zip
 
 cat << EOF > /elasticsearch/config/readonlyrest.yml
 readonlyrest:

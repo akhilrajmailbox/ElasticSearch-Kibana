@@ -14,6 +14,31 @@
 * OpenJDK JRE 8u171
 * Elasticsearch 6.2.4 -- 6.8.0
 
+
+# Authentication for ElasticSearch and Kibana
+
+```
+ES version 6.8.0 Docker image have plugin readonlyrest plugin, and so youy can enable the authentication for elasticsearch with the following environment Variables
+```
+
+This kubernetes deployment by default enabling the authetication for elasticsearch and kibana. If you don't need authetication you can simply remove the `AUTH_CONFIG` environment variable.
+
+These are the default Credentials for the deployment until and unless you remove the `AUTH_CONFIG` environment variable.
+
+The Usernames are hardcoded but you can override this credentials (only passwords) by updating these environment variables from Configmap (I already gave it as an example in the deployment part) or from secrets in kubernetes
+
+
+| User Name | Variable Name | Default Value | Description |
+|---------------|---------------|---------------|---------------|
+| kibanAdmin | KIBANA_ADMIN_PASSWORD | Admin@Kibana | Have full permission on the kibana dashboard |
+| kibanaUser | KIBANA_RO_PASSWORD | Ro@Kibana | Have readonly access on kibana dashboard |
+| LogAdmin | PUSHLOG_PASSWORD | Push2ES | Password for elasticsearch authetication (used by log shippers) |
+
+
+**Note : For Kibana Auth Configiuration while deploying, you have to configure User : kibanAdmin and Pass : KIBANA_ADMIN_PASSWORD**
+
+
+
 **Note:** `x-pack-ml` module is forcibly disabled as it's not supported on Alpine Linux.
 
 # Kubernetes Deployment 
@@ -53,6 +78,7 @@ kubectl -n elasticsearch get pods
 
 ## Deploy client nodes
 ```
+kubectl apply -f ElasticSearch/es-auth-configmap.yaml
 kubectl apply -f ElasticSearch/es-client-deployment.yaml
 kubectl apply -f ElasticSearch/es-client-service.yaml
 kubectl -n elasticsearch get pods
@@ -76,6 +102,7 @@ Elastic HQ can access on this url : `http://<<es_HQ_loadbalancer_IPAddress>>`
 
 ## Deploy Kibana Server
 ```
+kubectl -n elasticsearch create configmap kibana-config-cm --from-file=kibana/kibana.yml
 kubectl apply -f kibana/kibana-deployment.yaml
 kubectl apply -f kibana/kibana-service.yaml
 kubectl -n elasticsearch get pods
