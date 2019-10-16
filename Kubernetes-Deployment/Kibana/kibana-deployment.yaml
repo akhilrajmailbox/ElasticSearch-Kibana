@@ -17,7 +17,7 @@ spec:
       containers:
       - name: es-kibana
         imagePullPolicy: Always
-        image: akhilrajmailbox/elasticsearch:kibana-oss-6.2.4
+        image: akhilrajmailbox/elasticsearch:kibana-oss-6.8.0
         # image: docker.elastic.co/kibana/kibana-oss:6.2.2
         volumeMounts:
         - name: kibana-config

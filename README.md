@@ -8,6 +8,8 @@
 
 [help](https://www.datadoghq.com/blog/elasticsearch-game-day/)
 
+[readonlyrest-docs](https://github.com/beshu-tech/readonlyrest-docs/blob/master/elasticsearch.md)
+
 # Current software
 
 * Alpine Linux 3.8
