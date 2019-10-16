@@ -57,7 +57,7 @@ readonlyrest:
     - name: fluentd Client (this user can write and create its own indices, this is the user for elasticsearch and fluentd connection)
       auth_key: LogAdmin:${PUSHLOG_PASSWORD}
       type: allow
-      actions: ["indices:data/read/*","indices:data/write/*","indices:admin/template/*","indices:admin/create"]
+      actions: ["cluster:monitor/*","indices:data/read/*","indices:data/write/*","indices:admin/template/*","indices:admin/create"]
       indices: ["*"]
 EOF
 fi
