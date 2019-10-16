@@ -38,7 +38,7 @@ ENV PATH /elasticsearch/bin:$PATH
 WORKDIR /elasticsearch
 ADD readonlyrest-1.18.7_es${ES_VERSION}.zip /tmp/readonlyrest-1.18.7_es${ES_VERSION}.zip
 
-RUN rm -rf /elasticsearch/modules/x-pack*
+# RUN rm -rf /elasticsearch/modules/x-pack*
 
 
 # Copy configuration
