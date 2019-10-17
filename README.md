@@ -16,8 +16,15 @@
 * OpenJDK JRE 8u171
 * Elasticsearch 6.2.4 -- 6.8.0
 
+# Kubernetes Cluster Requirement
 
-# Cluster Features
+* cluster of 3 worker nodes (HA Configuration)
+* medium / high IOPS Required for the vm type
+* 2vcpu and 8 GB RAM for each worker ndoes
+* premium Storageclass needed for better performance
+
+
+# ES Cluster Features
 
 * High Available (HA) Cluster on Kubernetes
 * Self Healing Configuration for all nodes
