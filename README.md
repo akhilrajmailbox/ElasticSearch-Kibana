@@ -25,11 +25,11 @@
 * Authentication and Authorisation enabled with custom configuration and plugins
 * The default cluster have the following components (can be increase the number anytime without downtime)
 	* Three master nodes
-    	* Three data nodes
-    	* Two client nodes
-    	* One ES-HQ server
-    	* One Kibana Server
-    	* Three APM server
+ 	* Three data nodes
+	* Two client nodes
+	* One ES-HQ server
+	* One Kibana Server
+	* Three APM server
 
 
 
