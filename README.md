@@ -17,6 +17,22 @@
 * Elasticsearch 6.2.4 -- 6.8.0
 
 
+# Cluster Features
+
+* High Available (HA) Cluster on Kubernetes
+* Self Healing Configuration for all nodes
+* anytime can scale the cluster size (both horizontal and vertical)
+* Authentication and Authorisation enabled with custom configuration and plugins
+* The default cluster have the following components (can be increase the number anytime without downtime)
+	* Three master nodes
+    	* Three data nodes
+    	* Two client nodes
+    	* One ES-HQ server
+    	* One Kibana Server
+    	* Three APM server
+
+
+
 # Authentication for ElasticSearch and Kibana
 
 ```
