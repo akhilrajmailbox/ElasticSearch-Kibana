@@ -5,7 +5,7 @@ import os
 
 def snapshot(event, context):
     # snapshot.snapshot > call from lambda
-    csfxenv=os.environ['csfxenv']
+    myenv=os.environ['myenv']
     host=os.environ['host']
     indicesdeldays=int(os.environ['indicesdeldays'])
 
@@ -37,7 +37,7 @@ def snapshot(event, context):
 
 
     ## creating and deleting snapshots
-    if csfxenv == "production":
+    if myenv == "production":
         # Create snapshots
         snaprepo=os.environ['snaprepo']
         snappath='_snapshot/' + snaprepo + '/'
@@ -46,7 +46,7 @@ def snapshot(event, context):
         createsnapshotname = "snapshot-" + str(createsnapshotsuffix)
 
         snapcreateurl = snapurl + createsnapshotname + waitcompletion
-        snaprequest = requests.put(snapcreateurl, data='{"indices": "cfinx-prod-*"}', headers=headers)
+        snaprequest = requests.put(snapcreateurl, data='{"indices": "prefix-prod-*"}', headers=headers)
         print(snaprequest.status_code)
         print(snaprequest.text)
 
@@ -71,4 +71,4 @@ def snapshot(event, context):
                 print(delsnapname + " is not going to delete now.....")
 
     else:
-        print("csfxenv =" + csfxenv)
+        print("myenv =" + myenv)
