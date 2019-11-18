@@ -35,10 +35,17 @@ if [ ! -z "${ES_PLUGINS_INSTALL}" ]; then
     IFS="${OLDIFS}"
 fi
 
-if [ ! -z "${AZURE_REPOSITORY_CONFIG}" ] ; then
+if [ ! -z "${AZURE_REPOSITORY_CONFIG}" ]; then
+    if [ ! -z "${AZURE_REPOSITORY_ACCOUNT_NAME}" ] && [ ! -z "${AZURE_REPOSITORY_ACCOUNT_KEY}" ] ; then
 echo "Configuring plugin : repository-azure for ES version ${ES_VERSION}"
 yes | bin/elasticsearch-plugin install file:///tmp/repository-azure-${ES_VERSION}.zip
 rm -rf /tmp/repository-azure-${ES_VERSION}.zip
+
+echo "cloud.azure.storage.default.account: \${AZURE_REPOSITORY_ACCOUNT_NAME}" >> $BASE/config/elasticsearch.yml
+echo "cloud.azure.storage.default.key: \${AZURE_REPOSITORY_ACCOUNT_KEY}" >> $BASE/config/elasticsearch.yml
+    else
+        echo "AZURE_REPOSITORY_CONFIG is there but AZURE_REPOSITORY_ACCOUNT_NAME or/and AZURE_REPOSITORY_ACCOUNT_KEY is/are missing..!"
+    fi
 fi
 
 if [ ! -z "${AUTH_CONFIG}" ] ; then

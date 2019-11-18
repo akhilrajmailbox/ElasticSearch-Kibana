@@ -2,7 +2,7 @@
 
 
 **Tested on Azure, This deployment will work in any other cloud but have to change the configurations for storageclass and loadbalancer configurations**
-**This deployment using ES version 6.2.4, will not support version 7.x.x**
+**This deployment using ES version 6.8.0, will not support version 7.x.x**
 
 [kudos](https://medium.com/faun/https-medium-com-thakur-vaibhav23-ha-es-k8s-7e655c1b7b61)
 
@@ -14,7 +14,7 @@
 
 * Alpine Linux 3.8
 * OpenJDK JRE 8u171
-* Elasticsearch 6.2.4 -- 6.8.0
+* Elasticsearch 6.8.0 -- 6.8.0
 
 # Kubernetes Cluster Requirement
 
@@ -244,7 +244,7 @@ docker run --name elasticsearch \
 	--detach \
 	--privileged \
 	--volume /path/to/data_folder:/data \
-        akhilrajmailbox/elasticsearch:elasticsearch-6.2.4
+        akhilrajmailbox/elasticsearch:elasticsearch-6.8.0
 ```
 
 Ready to use node for cluster `myclustername`:
@@ -254,7 +254,7 @@ docker run --name elasticsearch \
 	--privileged \
 	--volume /path/to/data_folder:/data \
 	-e CLUSTER_NAME=myclustername \
-        akhilrajmailbox/elasticsearch:elasticsearch-6.2.4
+        akhilrajmailbox/elasticsearch:elasticsearch-6.8.0
 ```
 
 Ready to use node for cluster `elasticsearch-default`, with 8GB heap allocated to Elasticsearch:
@@ -264,7 +264,7 @@ docker run --name elasticsearch \
 	--privileged \
 	--volume /path/to/data_folder:/data \
 	-e ES_JAVA_OPTS="-Xms8g -Xmx8g" \
-        akhilrajmailbox/elasticsearch:elasticsearch-6.2.4
+        akhilrajmailbox/elasticsearch:elasticsearch-6.8.0
 ```
 
 Ready to use node with plugins (x-pack and repository-gcs) pre installed. Already installed plugins are ignored:
@@ -275,7 +275,7 @@ docker run --name elasticsearch \
 	--volume /path/to/data_folder:/data \
 	-e ES_JAVA_OPTS="-Xms8g -Xmx8g" \
 	-e ES_PLUGINS_INSTALL="repository-gcs,x-pack" \
-        akhilrajmailbox/elasticsearch:elasticsearch-6.2.4
+        akhilrajmailbox/elasticsearch:elasticsearch-6.8.0
 ```
 
 **Master-only** node for cluster `elasticsearch-default`:
@@ -286,7 +286,7 @@ docker run --name elasticsearch \
 	--volume /path/to/data_folder:/data \
 	-e NODE_DATA=false \
 	-e HTTP_ENABLE=false \
-        akhilrajmailbox/elasticsearch:elasticsearch-6.2.4
+        akhilrajmailbox/elasticsearch:elasticsearch-6.8.0
 ```
 
 **Data-only** node for cluster `elasticsearch-default`:
@@ -296,7 +296,7 @@ docker run --name elasticsearch \
 	--privileged \
 	-e NODE_MASTER=false \
 	-e HTTP_ENABLE=false \
-        akhilrajmailbox/elasticsearch:elasticsearch-6.2.4
+        akhilrajmailbox/elasticsearch:elasticsearch-6.8.0
 ```
 
 **Data-only** node for cluster `elasticsearch-default` with shard allocation awareness:
@@ -309,7 +309,7 @@ docker run --name elasticsearch \
 	-e HTTP_ENABLE=false \
     -e SHARD_ALLOCATION_AWARENESS=dockerhostname \
     -e SHARD_ALLOCATION_AWARENESS_ATTR="/dockerhost" \
-        akhilrajmailbox/elasticsearch:elasticsearch-6.2.4
+        akhilrajmailbox/elasticsearch:elasticsearch-6.8.0
 ```
 
 **Client-only** node for cluster `elasticsearch-default`:
@@ -320,7 +320,7 @@ docker run --name elasticsearch \
 	--volume /path/to/data_folder:/data \
 	-e NODE_MASTER=false \
 	-e NODE_DATA=false \
-        akhilrajmailbox/elasticsearch:elasticsearch-6.2.4
+        akhilrajmailbox/elasticsearch:elasticsearch-6.8.0
 ```
 I also make available special images and instructions for [AWS EC2](https://github.com/pires/docker-elasticsearch-aws) and [Kubernetes](https://github.com/pires/docker-elasticsearch-kubernetes).
 
