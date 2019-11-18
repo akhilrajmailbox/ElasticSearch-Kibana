@@ -41,8 +41,8 @@ echo "Configuring plugin : repository-azure for ES version ${ES_VERSION}"
 yes | bin/elasticsearch-plugin install file:///tmp/repository-azure-${ES_VERSION}.zip
 rm -rf /tmp/repository-azure-${ES_VERSION}.zip
 
-echo "\ncloud.azure.storage.default.account: \${AZURE_REPOSITORY_ACCOUNT_NAME}" >> $BASE/config/elasticsearch.yml
-echo "\ncloud.azure.storage.default.key: \${AZURE_REPOSITORY_ACCOUNT_KEY}" >> $BASE/config/elasticsearch.yml
+echo -e "\ncloud.azure.storage.default.account: \${AZURE_REPOSITORY_ACCOUNT_NAME}" >> $BASE/config/elasticsearch.yml
+echo -e "\ncloud.azure.storage.default.key: \${AZURE_REPOSITORY_ACCOUNT_KEY}" >> $BASE/config/elasticsearch.yml
     else
         echo "AZURE_REPOSITORY_CONFIG is there but AZURE_REPOSITORY_ACCOUNT_NAME or/and AZURE_REPOSITORY_ACCOUNT_KEY is/are missing..!"
     fi
