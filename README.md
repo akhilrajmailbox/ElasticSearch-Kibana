@@ -371,3 +371,135 @@ Now, you can take snapshots using:
 ```bash
 curl -f -XPUT "http://<container_ip>:9200/_snapshot/nas_repository/snapshot_`date --utc +%Y_%m_%dt%H_%M`?wait_for_completion=true"
 ```
+
+
+
+## azure blob storage and snapshots
+
+For configuring the Azure blobe storage as snapshot registry, first create the blobe storage account in azure and then you have to configure the following environment variable for the es deployment
+
+---------------------|---------------------|---------------------
+variable name	|	default value	| description
+---------------------|---------------------|---------------------
+AZURE_REPOSITORY_CONFIG	| -	| This value should be "true" to enable the snapshots |
+AZURE_REPOSITORY_ACCOUNT_NAME	|	-	|	configure the blob storage name |
+AZURE_REPOSITORY_ACCOUNT_KEY	|	-	|	configure the key1 or key2 value here |
+
+
+
+### register the snapshot repository
+
+**note : i am using the sub container name `backup-container` in here, you can give any name here but you have to create the container in the storage account before starting the elasticsearch**
+
+```
+curl -XPUT 'http://192.168.0.12:9200/_snapshot/azure_backup' -H 'Content-Type: application/json' -d '{
+  "type": "azure",
+  "settings": {
+    "account": "default",
+    "container": "backup-container",
+    "base_path": "backups",
+    "chunk_size": "32MB",
+    "compress": true
+  }
+}'
+```
+
+### create a sample snapshot
+```
+curl -XPUT 'http://@192.168.0.12:9200/_snapshot/azure_backup/snapshot_1' -H 'Content-Type: application/json' -d '{ "indices":"*","include_global_state":false }'
+```
+
+
+
+
+
+## Backup and Restore Steps
+
+
+
+
+### Backup
+
+* Install plugin:-
+```
+sudo ES_PATH_CONF=/etc/elasticsearch/es-node-2 /usr/share/elasticsearch/bin/elasticsearch-plugin install repository-azure
+```
+
+* change the configuration:-
+```
+sudo nano /etc/elasticsearch/es-node-2/elasticsearch.yml
+
+cloud.azure.storage.default.account: xxxxxxxxxxx
+cloud.azure.storage.default.key: xxxxxx
+```
+
+* Restart ES Service:- 
+```
+sudo systemctl restart es-node-2_elasticsearch.service
+```
+
+* create Repo:- 
+
+```
+curl -XPUT 'http://localhost:9200/_snapshot/azurebackup' -H 'Content-Type: application/json' -d '{ "type": "azure", "settings": { "container": "elasticsearch-snapshots", "base_path": "sunbirddevtele"} }'
+```
+
+* create Snapshot:-
+```
+curl -XPUT 'http://localhost:9200/_snapshot/azurebackup/snapshot_1' -H 'Content-Type: application/json' -d '{ "indices":"*","include_global_state":false }'
+```
+
+* check status of backup:-
+```
+curl -XGET 'http://localhost:9200/_snapshot/azurebackup/_all'
+```
+
+
+### Restore
+
+* Install plugin:-
+```
+sudo ES_PATH_CONF=/etc/elasticsearch/es-node-2 /usr/share/elasticsearch/bin/elasticsearch-plugin install repository-azure
+```
+
+* change the configuration:-
+```
+sudo nano /etc/elasticsearch/es-node-2/elasticsearch.yml
+
+cloud.azure.storage.default.account: xxxxxxxxxxx
+cloud.azure.storage.default.key: xxxxxx
+```
+
+* Restart ES Service:- 
+```
+sudo systemctl restart es-node-1_elasticsearch.service
+```
+
+* create Repo:-
+```
+curl -XPUT 'http://localhost:9200/_snapshot/azurebackup' -H 'Content-Type: application/json' -d '{ "type": "azure", "settings": { "container": "elasticsearch-snapshots", "base_path": "sunbirddevtele"} }'
+```
+
+* Delete unwanted indices:- 
+```
+curl -XDELETE http://localhost:9200/_all
+```
+
+* Restore from snapshot:-
+```
+curl -XPOST 'http://localhost:9200/_snapshot/azurebackup/snapshot_1/_restore'
+```
+
+
+### Reference links ::
+
+[snapshots-restore](https://github.com/project-sunbird/sunbird-devops/wiki/elasticsearch-backup-and-restore-for-telemetry-and-composite-search-to-azure-blob)
+
+[es-azure snapshots plugin](https://www.elastic.co/guide/en/elasticsearch/plugins/6.8/repository-azure.html)
+
+[es-azure plugin description](https://www.elastic.co/guide/en/elasticsearch/plugins/7.4/repository-azure-repository-settings.html)
+
+[blob-storage and snapshots 1](https://azure.microsoft.com/en-in/blog/archive-elasticsearch-indices-to-azure-blob-storage-using-the-azure-cloud-plugin/)
+
+[blob-storage and snapshots 2](https://stackoverflow.com/questions/54113059/elasticsearch-snapshot-creation-understanding-how-where-to-store-them-to)
+
