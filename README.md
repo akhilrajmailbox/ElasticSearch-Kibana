@@ -378,7 +378,7 @@ curl -f -XPUT "http://<container_ip>:9200/_snapshot/nas_repository/snapshot_`dat
 
 For configuring the Azure blobe storage as snapshot registry, first create the blobe storage account in azure and then you have to configure the following environment variable for the es deployment
 
----------------------|---------------------|---------------------
+
 variable name	|	default value	| description
 ---------------------|---------------------|---------------------
 AZURE_REPOSITORY_CONFIG	| -	| This value should be "true" to enable the snapshots |
