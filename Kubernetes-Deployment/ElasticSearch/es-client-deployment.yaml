@@ -80,6 +80,12 @@ spec:
                 name: es-auth-cm
                 key: PUSHLOG_PASSWORD
 
+        - name: AZURE_REPOSITORY_ACCOUNT_NAME
+          value: ""
+
+        - name: AZURE_REPOSITORY_ACCOUNT_KEY
+          value: ""
+
         - name: CLUSTER_NAME
           value: my-es
         - name: NODE_MASTER

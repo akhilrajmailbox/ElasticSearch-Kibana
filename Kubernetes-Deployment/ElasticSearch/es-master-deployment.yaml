@@ -56,6 +56,12 @@ spec:
                 name: es-auth-cm
                 key: AZURE_REPOSITORY_CONFIG
 
+        - name: AZURE_REPOSITORY_ACCOUNT_NAME
+          value: ""
+
+        - name: AZURE_REPOSITORY_ACCOUNT_KEY
+          value: ""
+
         - name: CLUSTER_NAME
           value: my-es
         - name: NUMBER_OF_MASTERS
