@@ -35,6 +35,11 @@ if [ ! -z "${ES_PLUGINS_INSTALL}" ]; then
     IFS="${OLDIFS}"
 fi
 
+if [ ! -z "${AZURE_REPOSITORY_CONFIG}" ] ; then
+echo "Configuring plugin : repository-azure for ES version ${ES_VERSION}"
+yes | bin/elasticsearch-plugin install file:///tmp/repository-azure-${ES_VERSION}.zip
+rm -rf /tmp/repository-azure-${ES_VERSION}.zip
+fi
 
 if [ ! -z "${AUTH_CONFIG}" ] ; then
 # readonlyrest configuration

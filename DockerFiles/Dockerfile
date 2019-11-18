@@ -37,7 +37,7 @@ ENV PATH /elasticsearch/bin:$PATH
 
 WORKDIR /elasticsearch
 ADD readonlyrest-1.18.7_es${ES_VERSION}.zip /tmp/readonlyrest-1.18.7_es${ES_VERSION}.zip
-
+ADD repository-azure-${ES_VERSION}.zip /tmp/repository-azure-${ES_VERSION}.zip
 # RUN rm -rf /elasticsearch/modules/x-pack*
 
 
@@ -65,6 +65,7 @@ ENV MEMORY_LOCK false
 ENV REPO_LOCATIONS ""
 ENV DISCOVERY_SERVICE elasticsearch-discovery
 ENV AUTH_CONFIG ""
+ENV AZURE_REPOSITORY_CONFIG ""
 ENV KIBANA_ADMIN_PASSWORD "Admin@Kibana"
 ENV KIBANA_RO_PASSWORD "Ro@Kibana"
 ENV PUSHLOG_PASSWORD "Push2ES"
