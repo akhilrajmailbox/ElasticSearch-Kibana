@@ -2,6 +2,7 @@ apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: cron-snapshots
+  namespace: elasticsearch
 spec:
   schedule: "* */2 * * *"
   concurrencyPolicy: Forbid
@@ -39,7 +40,6 @@ spec:
             - name: "snapdeldays"
               value: "365"
 
-          restartPolicy: Always
             volumeMounts:
             - name: "snapshot"
               mountPath: "/opt/snapshot.py"
@@ -48,3 +48,4 @@ spec:
             - name: "snapshot"
               configMap:
                 name: "snapshot-cm"
+          restartPolicy: OnFailure                

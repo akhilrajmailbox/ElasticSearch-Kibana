@@ -41,8 +41,9 @@ deactivate
 
 ### Kubernetes cronjab with configmap
 
-**For kubernetes cornjob, you have to create the configmap with the zip file and then create the cronjob with "es-snapshots-cronjob.yaml"**
+**For kubernetes cronjob, Update the "snapshot.py" file according to your needs and create the configmap with it, then create the cronjob with "es-snapshots-cronjob.yaml"**
 
 ```
 kubectl -n elasticsearch create configmap snapshot-cm --from-file snapshot.py
+kubectl apply -f es-snapshots-cronjob.yaml
 ```
