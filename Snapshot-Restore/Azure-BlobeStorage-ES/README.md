@@ -44,5 +44,5 @@ deactivate
 **For kubernetes cornjob, you have to create the configmap with the zip file and then create the cronjob with "es-snapshots-cronjob.yaml"**
 
 ```
-kubectl -n elasticsearch create configmap snapshot-cm --from-file es-manager.zip
+kubectl -n elasticsearch create configmap snapshot-cm --from-file snapshot.py
 ```
