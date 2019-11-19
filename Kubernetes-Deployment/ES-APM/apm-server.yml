@@ -1,6 +1,6 @@
 apm-server:
   host: 0.0.0.0:8200
-  secret_token: "1d536c9df894-g42d1fsd-41dfsfcs2-dsfvsd12"
+  secret_token: "${ELASTIC_APM_SECRET_TOKEN}"
   read_timeout: 45s
 
 output:

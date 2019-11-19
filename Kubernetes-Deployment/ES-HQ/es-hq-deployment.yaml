@@ -14,6 +14,26 @@ spec:
         component: elasticsearch
         role: hq
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: agentpool
+                operator: In
+                values:
+                - monitor
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: role
+                  operator: In
+                  values:
+                  - hq
+              topologyKey: "kubernetes.io/hostname"
       containers:
       - name: es-lighttpd
         imagePullPolicy: Always

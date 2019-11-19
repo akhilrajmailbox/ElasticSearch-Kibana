@@ -16,17 +16,25 @@ spec:
         role: data
     spec:
       affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: agentpool
+                operator: In
+                values:
+                - monitor
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 100
             podAffinityTerm:
               labelSelector:
                 matchExpressions:
-                - key: agentpool
+                - key: role
                   operator: In
                   values:
-                  - agentpool
-              topologyKey: kubernetes.io/hostname
+                  - data
+              topologyKey: "kubernetes.io/hostname"
       initContainers:
       - name: init-sysctl
         image: busybox:1.27.2

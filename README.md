@@ -87,6 +87,11 @@ kubernetes issue : [Not support new ES version](https://hub.helm.sh/charts/stabl
 kubectl apply -f es-namespace.yaml
 ```
 
+## Configure Credentials
+```
+kubectl apply -f ElasticSearch/es-auth-configmap.yaml
+```
+
 ## Deploy master nodes
 ```
 kubectl apply -f ElasticSearch/es-master-deployment.yaml
@@ -105,7 +110,6 @@ kubectl -n elasticsearch get pods
 
 ## Deploy client nodes
 ```
-kubectl apply -f ElasticSearch/es-auth-configmap.yaml
 kubectl apply -f ElasticSearch/es-client-deployment.yaml
 kubectl apply -f ElasticSearch/es-client-service.yaml
 kubectl -n elasticsearch get pods

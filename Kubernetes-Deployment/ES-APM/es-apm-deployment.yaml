@@ -15,17 +15,25 @@ spec:
         role: apm
     spec:
       affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: agentpool
+                operator: In
+                values:
+                - monitor
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 100
             podAffinityTerm:
               labelSelector:
                 matchExpressions:
-                - key: agentpool
+                - key: role
                   operator: In
                   values:
-                  - agentpool
-              topologyKey: kubernetes.io/hostname
+                  - apm
+              topologyKey: "kubernetes.io/hostname"
       containers:
       - args:
         - "-c"
@@ -42,6 +50,12 @@ spec:
           subPath: apm-server.yml
           readOnly: true
         env:
+        - name : ELASTIC_APM_SECRET_TOKEN
+          valueFrom:
+            configMapKeyRef:
+                name: es-auth-cm
+                key: ELASTIC_APM_SECRET_TOKEN
+
         - name : KIBANA_ADMIN_PASSWORD
           valueFrom:
             configMapKeyRef:
