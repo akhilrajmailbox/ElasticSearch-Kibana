@@ -6,7 +6,7 @@
 * Take the zip file and extract it in your local system ; you must need python 3
 
 ```
-unzip es-manager.zip
+unzip snapshot.zip
 ```
 
 * Export these environment variables in your system before run the python script
@@ -24,7 +24,7 @@ export snapdeldays=180
 * Activate the python virtualenv
 
 ```
-cd es-manager/
+cd snapshot/
 source ./bin/activate
 ```
 

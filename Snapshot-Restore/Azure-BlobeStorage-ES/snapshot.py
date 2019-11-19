@@ -74,4 +74,4 @@ def snapshot(event, context):
         print("myenv =" + myenv)
         
 
-# snapshot("event", "context")
+snapshot("event", "context")
