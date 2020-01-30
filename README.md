@@ -83,16 +83,19 @@ kubernetes issue : [Not support new ES version](https://hub.helm.sh/charts/stabl
 **Run these commands from `Kubernetes-Deployment` Folder**
 
 ### Create Namespace for Elasticsearch Deployment
+
 ```
 kubectl apply -f es-namespace.yaml
 ```
 
 ### Configure Credentials
+
 ```
 kubectl apply -f ElasticSearch/es-auth-configmap.yaml
 ```
 
 ### Deploy master nodes
+
 ```
 kubectl apply -f ElasticSearch/es-master-deployment.yaml
 kubectl apply -f ElasticSearch/es-master-service.yaml
@@ -100,6 +103,7 @@ kubectl -n elasticsearch get pods
 ```
 
 ### Deploy data nodes
+
 ```
 kubectl apply -f ElasticSearch/es-data-storageclass.yaml
 kubectl get storageclass
@@ -109,6 +113,7 @@ kubectl -n elasticsearch get pods
 ```
 
 ### Deploy client nodes
+
 ```
 kubectl apply -f ElasticSearch/es-client-deployment.yaml
 kubectl apply -f ElasticSearch/es-client-service.yaml
@@ -132,6 +137,7 @@ kubectl -n elasticsearch get pods
 Elastic HQ can access on this url : `http://<<es_HQ_loadbalancer_IPAddress>>`
 
 ### Deploy Kibana Server
+
 ```
 kubectl -n elasticsearch create configmap kibana-config-cm --from-file=kibana/kibana.yml
 kubectl apply -f kibana/kibana-deployment.yaml
@@ -143,6 +149,7 @@ kibana can access on this url : `http://<<kibana_loadbalancer_IPAddress>>/app/ki
 
 
 ### Deploy Elastic APM Server
+
 ```
 kubectl -n elasticsearch create configmap apm-server-cm --from-file=ES-APM/apm-server.yml
 kubectl apply -f ES-APM/es-apm-deployment.yaml
@@ -243,6 +250,7 @@ uodate the storage entry.
 * [Multicast discovery is no longer built-in](https://www.elastic.co/guide/en/elasticsearch/reference/2.3/breaking_20_removed_features.html#_multicast_discovery_is_now_a_plugin)
 
 Ready to use node for cluster `elasticsearch-default`:
+
 ```
 docker run --name elasticsearch \
 	--detach \
@@ -252,6 +260,7 @@ docker run --name elasticsearch \
 ```
 
 Ready to use node for cluster `myclustername`:
+
 ```
 docker run --name elasticsearch \
 	--detach \
@@ -262,6 +271,7 @@ docker run --name elasticsearch \
 ```
 
 Ready to use node for cluster `elasticsearch-default`, with 8GB heap allocated to Elasticsearch:
+
 ```
 docker run --name elasticsearch \
 	--detach \
@@ -272,6 +282,7 @@ docker run --name elasticsearch \
 ```
 
 Ready to use node with plugins (x-pack and repository-gcs) pre installed. Already installed plugins are ignored:
+
 ```
 docker run --name elasticsearch \
 	--detach \
@@ -283,6 +294,7 @@ docker run --name elasticsearch \
 ```
 
 **Master-only** node for cluster `elasticsearch-default`:
+
 ```
 docker run --name elasticsearch \
 	--detach \
@@ -304,6 +316,7 @@ docker run --name elasticsearch \
 ```
 
 **Data-only** node for cluster `elasticsearch-default` with shard allocation awareness:
+
 ```
 docker run --name elasticsearch \
 	--detach --volume /path/to/data_folder:/data \
@@ -317,6 +330,7 @@ docker run --name elasticsearch \
 ```
 
 **Client-only** node for cluster `elasticsearch-default`:
+
 ```
 docker run --name elasticsearch \
 	--detach \
@@ -326,6 +340,7 @@ docker run --name elasticsearch \
 	-e NODE_DATA=false \
         akhilrajmailbox/elasticsearch:elasticsearch-6.8.0
 ```
+
 I also make available special images and instructions for [AWS EC2](https://github.com/pires/docker-elasticsearch-aws) and [Kubernetes](https://github.com/pires/docker-elasticsearch-kubernetes).
 
 ### Environment variables
@@ -372,6 +387,7 @@ curl -XPOST http://<container_ip>:9200/_snapshot/nas_repository -d @backup_repos
 ```
 
 Now, you can take snapshots using:
+
 ```bash
 curl -f -XPUT "http://<container_ip>:9200/_snapshot/nas_repository/snapshot_`date --utc +%Y_%m_%dt%H_%M`?wait_for_completion=true"
 ```
@@ -409,6 +425,7 @@ curl -XPUT 'http://192.168.0.12:9200/_snapshot/azure_backup' -H 'Content-Type: a
 ```
 
 ### create a sample snapshot
+
 ```
 curl -XPUT 'http://@192.168.0.12:9200/_snapshot/azure_backup/snapshot_1' -H 'Content-Type: application/json' -d '{ "indices":"*","include_global_state":false }'
 ```
@@ -425,11 +442,13 @@ curl -XPUT 'http://@192.168.0.12:9200/_snapshot/azure_backup/snapshot_1' -H 'Con
 ### Backup
 
 * Install plugin:-
+
 ```
 sudo ES_PATH_CONF=/etc/elasticsearch/es-node-2 /usr/share/elasticsearch/bin/elasticsearch-plugin install repository-azure
 ```
 
 * change the configuration:-
+
 ```
 sudo nano /etc/elasticsearch/es-node-2/elasticsearch.yml
 cloud.azure.storage.default.account: xxxxxxxxxxx
@@ -437,6 +456,7 @@ cloud.azure.storage.default.key: xxxxxx
 ```
 
 * Restart ES Service:- 
+
 ```
 sudo systemctl restart es-node-2_elasticsearch.service
 ```
@@ -448,11 +468,13 @@ curl -XPUT 'http://localhost:9200/_snapshot/azurebackup' -H 'Content-Type: appli
 ```
 
 * create Snapshot:-
+
 ```
 curl -XPUT 'http://localhost:9200/_snapshot/azurebackup/snapshot_1' -H 'Content-Type: application/json' -d '{ "indices":"*","include_global_state":false }'
 ```
 
 * check status of backup:-
+
 ```
 curl -XGET 'http://localhost:9200/_snapshot/azurebackup/_all'
 ```
@@ -461,11 +483,13 @@ curl -XGET 'http://localhost:9200/_snapshot/azurebackup/_all'
 ### Restore
 
 * Install plugin:-
+
 ```
 sudo ES_PATH_CONF=/etc/elasticsearch/es-node-2 /usr/share/elasticsearch/bin/elasticsearch-plugin install repository-azure
 ```
 
 * change the configuration:-
+
 ```
 sudo nano /etc/elasticsearch/es-node-2/elasticsearch.yml
 cloud.azure.storage.default.account: xxxxxxxxxxx
@@ -473,21 +497,25 @@ cloud.azure.storage.default.key: xxxxxx
 ```
 
 * Restart ES Service:- 
+
 ```
 sudo systemctl restart es-node-1_elasticsearch.service
 ```
 
 * create Repo:-
+
 ```
 curl -XPUT 'http://localhost:9200/_snapshot/azurebackup' -H 'Content-Type: application/json' -d '{ "type": "azure", "settings": { "container": "elasticsearch-snapshots", "base_path": "sunbirddevtele"} }'
 ```
 
 * Delete unwanted indices:- 
+
 ```
 curl -XDELETE http://localhost:9200/_all
 ```
 
 * Restore from snapshot:-
+
 ```
 curl -XPOST 'http://localhost:9200/_snapshot/azurebackup/snapshot_1/_restore'
 ```
