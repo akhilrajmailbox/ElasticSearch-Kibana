@@ -10,13 +10,13 @@
 
 [readonlyrest-docs](https://github.com/beshu-tech/readonlyrest-docs/blob/master/elasticsearch.md)
 
-# Current software
+## Current software
 
 * Alpine Linux 3.8
 * OpenJDK JRE 8u171
 * Elasticsearch 6.8.0 -- 6.8.0
 
-# Kubernetes Cluster Requirement
+## Kubernetes Cluster Requirement
 
 * cluster of 3 worker nodes (HA Configuration)
 * medium / high IOPS Required for the vm type
@@ -24,7 +24,7 @@
 * premium Storageclass needed for better performance
 
 
-# ES Cluster Features
+## ES Cluster Features
 
 * High Available (HA) Cluster on Kubernetes
 * Self Healing Configuration for all nodes
@@ -40,7 +40,7 @@
 
 
 
-# Authentication for ElasticSearch and Kibana
+## Authentication for ElasticSearch and Kibana
 
 ```
 ES version 6.8.0 Docker image have plugin readonlyrest plugin, and so youy can enable the authentication for elasticsearch with the following environment Variables
@@ -68,7 +68,7 @@ The Usernames are hardcoded but you can override this credentials (only password
 
 **Note:** `x-pack-ml` module is forcibly disabled as it's not supported on Alpine Linux.
 
-# Kubernetes Deployment 
+## Kubernetes Deployment 
 
 **Note: These following environment and its default values are giving below, it is customised for dockerized deployment in K8s but will degrade the performance (MEMORY_LOCK false)**
 
@@ -82,24 +82,24 @@ kubernetes issue : [Not support new ES version](https://hub.helm.sh/charts/stabl
 
 **Run these commands from `Kubernetes-Deployment` Folder**
 
-## Create Namespace for Elasticsearch Deployment
+### Create Namespace for Elasticsearch Deployment
 ```
 kubectl apply -f es-namespace.yaml
 ```
 
-## Configure Credentials
+### Configure Credentials
 ```
 kubectl apply -f ElasticSearch/es-auth-configmap.yaml
 ```
 
-## Deploy master nodes
+### Deploy master nodes
 ```
 kubectl apply -f ElasticSearch/es-master-deployment.yaml
 kubectl apply -f ElasticSearch/es-master-service.yaml
 kubectl -n elasticsearch get pods
 ```
 
-## Deploy data nodes
+### Deploy data nodes
 ```
 kubectl apply -f ElasticSearch/es-data-storageclass.yaml
 kubectl get storageclass
@@ -108,7 +108,7 @@ kubectl apply -f ElasticSearch/es-data-service.yaml
 kubectl -n elasticsearch get pods
 ```
 
-## Deploy client nodes
+### Deploy client nodes
 ```
 kubectl apply -f ElasticSearch/es-client-deployment.yaml
 kubectl apply -f ElasticSearch/es-client-service.yaml
@@ -118,7 +118,7 @@ kubectl -n elasticsearch get pods
 ElasticSearch can access on this url : `http://<<es_client_loadbalancer_IPAddress>>:9200`
 
 
-## Deploy Elastic HQ (Monitoring tool)
+### Deploy Elastic HQ (Monitoring tool)
 
 **Update the ConfigMap : `es-hq-configmap.yaml` with the basic-auth username and password**
 
@@ -131,7 +131,7 @@ kubectl -n elasticsearch get pods
 
 Elastic HQ can access on this url : `http://<<es_HQ_loadbalancer_IPAddress>>`
 
-## Deploy Kibana Server
+### Deploy Kibana Server
 ```
 kubectl -n elasticsearch create configmap kibana-config-cm --from-file=kibana/kibana.yml
 kubectl apply -f kibana/kibana-deployment.yaml
@@ -142,7 +142,7 @@ kubectl -n elasticsearch get pods
 kibana can access on this url : `http://<<kibana_loadbalancer_IPAddress>>/app/kibana`
 
 
-## Deploy Elastic APM Server
+### Deploy Elastic APM Server
 ```
 kubectl -n elasticsearch create configmap apm-server-cm --from-file=ES-APM/apm-server.yml
 kubectl apply -f ES-APM/es-apm-deployment.yaml
@@ -152,7 +152,7 @@ kubectl -n elasticsearch get pods
 
 Elastic APM can access on this url : `http://<<es_APM_loadbalancer_IPAddress>>`
 
-## Check the services, pods, pvc and pv
+### Check the services, pods, pvc and pv
 ```
 kubectl -n elasticsearch get pods
 kubectl -n elasticsearch get services
@@ -432,7 +432,6 @@ sudo ES_PATH_CONF=/etc/elasticsearch/es-node-2 /usr/share/elasticsearch/bin/elas
 * change the configuration:-
 ```
 sudo nano /etc/elasticsearch/es-node-2/elasticsearch.yml
-
 cloud.azure.storage.default.account: xxxxxxxxxxx
 cloud.azure.storage.default.key: xxxxxx
 ```
@@ -469,7 +468,6 @@ sudo ES_PATH_CONF=/etc/elasticsearch/es-node-2 /usr/share/elasticsearch/bin/elas
 * change the configuration:-
 ```
 sudo nano /etc/elasticsearch/es-node-2/elasticsearch.yml
-
 cloud.azure.storage.default.account: xxxxxxxxxxx
 cloud.azure.storage.default.key: xxxxxx
 ```
