@@ -454,10 +454,10 @@ cloud.azure.storage.default.key: xxxxxx
 sudo systemctl restart es-node-2_elasticsearch.service
 ```
 
-* acreate Repo:-
+* create Repo:-
 
 ```
-curl 
+curl -XPUT 'http://localhost:9200/_snapshot/azurebackup' -H 'Content-Type: application/json' -d '{ "type": "azure", "settings": { "container": "elasticsearch-snapshots", "base_path": "sunbirddevtele"} }'
 ```
 
 * create Snapshot:-
