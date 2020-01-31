@@ -211,12 +211,11 @@ Master-Node Pods do not require autoscaling as they only store cluster-state inf
 1. Delete all the pods which are using pvc (delete the StatefulSet)
 2. edit all pvc with as follows
 
-`kubectl -n elasticsearch edit  pvc storage-es-data-0`
-
-
 ```
-uodate the storage entry.
+kubectl -n elasticsearch edit  pvc storage-es-data-0
 ```
+
+update the storage entry.
 
 3. redeploy the `StatefulSet`
 
@@ -431,13 +430,7 @@ curl -XPUT 'http://@192.168.0.12:9200/_snapshot/azure_backup/snapshot_1' -H 'Con
 ```
 
 
-
-
-
 ## Backup and Restore Steps
-
-
-
 
 ### Backup
 
@@ -464,7 +457,7 @@ sudo systemctl restart es-node-2_elasticsearch.service
 * create Repo:-
 
 ```
-curl -XPUT 'http://localhost:9200/_snapshot/azurebackup' -H 'Content-Type: application/json' -d '{ "type": "azure", "settings": { "container": "elasticsearch-snapshots", "base_path": "sunbirddevtele"} }'
+curl -XPUT 'http://localhost:9200/_snapshot/azurebackup' -H 
 ```
 
 * create Snapshot:-
