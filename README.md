@@ -2,7 +2,9 @@
 
 
 **Tested on Azure, This deployment will work in any other cloud but have to change the configurations for storageclass and loadbalancer configurations**
+
 **This deployment using ES version 6.8.0, will not support version 7.x.x**
+
 **All the YAML files are for Azure Deployment, but you can update the Yaml file to use any other cloud platform (gcp serviceaccount mounting configuration missing and the service.yaml file having azure related configuration for example....)**
 
 [kudos](https://medium.com/faun/https-medium-com-thakur-vaibhav23-ha-es-k8s-7e655c1b7b61)
