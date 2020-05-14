@@ -60,8 +60,8 @@ if [ ! -z "${AZURE_REPOSITORY_CONFIG}" ]; then
         yes | bin/elasticsearch-plugin install file:///tmp/repository-azure-${ES_VERSION}.zip
         rm -rf /tmp/repository-azure-${ES_VERSION}.zip
 
-        echo "${AZURE_REPOSITORY_ACCOUNT_NAME}" | bin/elasticsearch-keystore add azure.client.default.account --stdin
-        echo "${AZURE_REPOSITORY_ACCOUNT_KEY}" | bin/elasticsearch-keystore add azure.client.default.key --stdin
+        echo "${AZURE_REPOSITORY_ACCOUNT_NAME}" | bin/elasticsearch-keystore add azure.client.default.account -f
+        echo "${AZURE_REPOSITORY_ACCOUNT_KEY}" | bin/elasticsearch-keystore add azure.client.default.key -f
 
     else
         echo "AZURE_REPOSITORY_CONFIG is there but AZURE_REPOSITORY_ACCOUNT_NAME or/and AZURE_REPOSITORY_ACCOUNT_KEY is/are missing..!"
@@ -85,8 +85,8 @@ elif [ ! -z "${S3_REPOSITORY_CONFIG}" ]; then
         yes | bin/elasticsearch-plugin install file:///tmp/repository-s3-${ES_VERSION}.zip
         rm -rf /tmp/repository-s3-${ES_VERSION}.zip
 
-        echo "${S3_ACCESS_KEY}" | bin/elasticsearch-keystore add s3.client.default.access_key --stdin
-        echo "${S3_SECRET_KEY}" | bin/elasticsearch-keystore add s3.client.default.secret_key --stdin
+        echo "${S3_ACCESS_KEY}" | bin/elasticsearch-keystore add s3.client.default.access_key -f
+        echo "${S3_SECRET_KEY}" | bin/elasticsearch-keystore add s3.client.default.secret_key -f
 
     else
         echo "S3_REPOSITORY_CONFIG is there but S3_ACCESS_KEY or/and S3_SECRET_KEY is/are missing..!"
