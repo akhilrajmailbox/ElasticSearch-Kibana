@@ -154,6 +154,7 @@ if [[ $(whoami) == "root" ]]; then
         echo "Changing ownership of /data folder"
         chown -R elasticsearch:elasticsearch /data
     fi
+    chown -R elasticsearch:elasticsearch /elasticsearch/
     exec su-exec elasticsearch $BASE/bin/elasticsearch $ES_EXTRA_ARGS
 else
     # The container's first process is not running as 'root', 
