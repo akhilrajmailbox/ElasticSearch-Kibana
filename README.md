@@ -411,9 +411,6 @@ AZURE_REPOSITORY_ACCOUNT_KEY	|	-	|	configure the key1 or key2 value here |
 
 ## Google bucket and snapshots
 
-For configuring the Azure blobe storage as snapshot registry, first create the blobe storage account in azure and then you have to configure the following environment variable for the es deployment
-
-
 variable name	|	default value	| description
 ---------------------|---------------------|---------------------
 GCS_REPOSITORY_CONFIG	| -	| This value should be "true" to enable the snapshots |
@@ -422,9 +419,6 @@ GCS_REPOSITORY_CONFIG	| -	| This value should be "true" to enable the snapshots 
 
 
 ## AWS s3 and snapshots
-
-For configuring the Azure blobe storage as snapshot registry, first create the blobe storage account in azure and then you have to configure the following environment variable for the es deployment
-
 
 variable name	|	default value	| description
 ---------------------|---------------------|---------------------
