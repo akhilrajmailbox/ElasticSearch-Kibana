@@ -36,8 +36,10 @@ RUN apk add --no-cache -t .build-deps gnupg openssl \
 ENV PATH /elasticsearch/bin:$PATH
 
 WORKDIR /elasticsearch
-ADD readonlyrest-1.18.7_es${ES_VERSION}.zip /tmp/readonlyrest-1.18.7_es${ES_VERSION}.zip
-ADD repository-azure-${ES_VERSION}.zip /tmp/repository-azure-${ES_VERSION}.zip
+ADD plugins/readonlyrest-1.18.7_es${ES_VERSION}.zip /tmp/readonlyrest-1.18.7_es${ES_VERSION}.zip
+ADD plugins/repository-azure-${ES_VERSION}.zip /tmp/repository-azure-${ES_VERSION}.zip
+ADD plugins/repository-gcs-${ES_VERSION}.zip /tmp/repository-gcs-${ES_VERSION}.zip
+ADD plugins/repository-s3-${ES_VERSION}.zip /tmp/repository-s3-${ES_VERSION}.zip
 # RUN rm -rf /elasticsearch/modules/x-pack*
 
 
@@ -68,6 +70,10 @@ ENV AUTH_CONFIG ""
 ENV AZURE_REPOSITORY_CONFIG ""
 ENV AZURE_REPOSITORY_ACCOUNT_NAME ""
 ENV AZURE_REPOSITORY_ACCOUNT_KEY ""
+ENV GCS_REPOSITORY_CONFIG ""
+ENV S3_REPOSITORY_CONFIG ""
+ENV S3_ACCESS_KEY ""
+ENV S3_SECRET_KEY ""
 ENV KIBANA_ADMIN_PASSWORD "Admin@Kibana"
 ENV KIBANA_RO_PASSWORD "Ro@Kibana"
 ENV PUSHLOG_PASSWORD "Push2ES"

@@ -408,10 +408,13 @@ AZURE_REPOSITORY_ACCOUNT_KEY	|	-	|	configure the key1 or key2 value here |
 
 ### register the snapshot repository
 
+
+#### Azure 
+
 **note : i am using the sub container name `backup-container` in here, you can give any name here but you have to create the container in the storage account before starting the elasticsearch**
 
 ```
-curl -XPUT 'http://192.168.0.12:9200/_snapshot/azure_backup' -H 'Content-Type: application/json' -d '{
+curl -XPUT 'http://192.168.0.12:9200/_snapshot/es_backup' -H 'Content-Type: application/json' -d '{
   "type": "azure",
   "settings": {
     "account": "default",
@@ -423,10 +426,42 @@ curl -XPUT 'http://192.168.0.12:9200/_snapshot/azure_backup' -H 'Content-Type: a
 }'
 ```
 
+## GCS
+
+```
+curl -XPUT 'http://192.168.0.12:9200/_snapshot/es_backup' -H 'Content-Type: application/json' -d '{
+  "type": "gcs",
+  "settings": {
+    "bucket": "my_bucket",
+    "client": "default",
+    "base_path": "backups",
+    "chunk_size": "32MB",
+    "compress": true
+  }
+}'
+```
+
+
+## S3
+
+```
+curl -XPUT 'http://192.168.0.12:9200/_snapshot/es_backup' -H 'Content-Type: application/json' -d '{
+  "type": "s3",
+  "settings": {
+    "bucket": "my_bucket",
+    "client": "default",
+    "base_path": "backups",
+    "chunk_size": "32MB",
+    "compress": true
+  }
+}'
+```
+
+
 ### create a sample snapshot
 
 ```
-curl -XPUT 'http://@192.168.0.12:9200/_snapshot/azure_backup/snapshot_1' -H 'Content-Type: application/json' -d '{ "indices":"*","include_global_state":false }'
+curl -XPUT 'http://@192.168.0.12:9200/_snapshot/es_backup/snapshot_1' -H 'Content-Type: application/json' -d '{ "indices":"*","include_global_state":false }'
 ```
 
 

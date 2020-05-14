@@ -35,18 +35,68 @@ if [ ! -z "${ES_PLUGINS_INSTALL}" ]; then
     IFS="${OLDIFS}"
 fi
 
+
+
+
+# if [ ! -z "${AZURE_REPOSITORY_CONFIG}" ]; then
+#     if [ ! -z "${AZURE_REPOSITORY_ACCOUNT_NAME}" ] && [ ! -z "${AZURE_REPOSITORY_ACCOUNT_KEY}" ] ; then
+# echo "Configuring plugin : repository-azure for ES version ${ES_VERSION}"
+# yes | bin/elasticsearch-plugin install file:///tmp/repository-azure-${ES_VERSION}.zip
+# rm -rf /tmp/repository-azure-${ES_VERSION}.zip
+
+# echo -e "\ncloud.azure.storage.default.account: \${AZURE_REPOSITORY_ACCOUNT_NAME}" >> $BASE/config/elasticsearch.yml
+# echo -e "\ncloud.azure.storage.default.key: \${AZURE_REPOSITORY_ACCOUNT_KEY}" >> $BASE/config/elasticsearch.yml
+#     else
+#         echo "AZURE_REPOSITORY_CONFIG is there but AZURE_REPOSITORY_ACCOUNT_NAME or/and AZURE_REPOSITORY_ACCOUNT_KEY is/are missing..!"
+#     fi
+# fi
+
+
+
+
 if [ ! -z "${AZURE_REPOSITORY_CONFIG}" ]; then
     if [ ! -z "${AZURE_REPOSITORY_ACCOUNT_NAME}" ] && [ ! -z "${AZURE_REPOSITORY_ACCOUNT_KEY}" ] ; then
-echo "Configuring plugin : repository-azure for ES version ${ES_VERSION}"
-yes | bin/elasticsearch-plugin install file:///tmp/repository-azure-${ES_VERSION}.zip
-rm -rf /tmp/repository-azure-${ES_VERSION}.zip
+        echo "Configuring plugin : repository-azure for ES version ${ES_VERSION}"
+        yes | bin/elasticsearch-plugin install file:///tmp/repository-azure-${ES_VERSION}.zip
+        rm -rf /tmp/repository-azure-${ES_VERSION}.zip
 
-echo -e "\ncloud.azure.storage.default.account: \${AZURE_REPOSITORY_ACCOUNT_NAME}" >> $BASE/config/elasticsearch.yml
-echo -e "\ncloud.azure.storage.default.key: \${AZURE_REPOSITORY_ACCOUNT_KEY}" >> $BASE/config/elasticsearch.yml
+        echo "${AZURE_REPOSITORY_ACCOUNT_NAME}" | bin/elasticsearch-keystore add azure.client.default.account
+        echo "${AZURE_REPOSITORY_ACCOUNT_KEY}" | bin/elasticsearch-keystore add azure.client.default.key
+
     else
         echo "AZURE_REPOSITORY_CONFIG is there but AZURE_REPOSITORY_ACCOUNT_NAME or/and AZURE_REPOSITORY_ACCOUNT_KEY is/are missing..!"
+        exit 1
     fi
+elif [ ! -z "${GCS_REPOSITORY_CONFIG}" ]; then
+    if [ -f "/opt/secrets/serviceaccount.json" ] ; then
+        echo "Configuring plugin : repository-gcs for ES version ${ES_VERSION}"
+        yes | bin/elasticsearch-plugin install file:///tmp/repository-gcs-${ES_VERSION}.zip
+        rm -rf /tmp/repository-gcs-${ES_VERSION}.zip
+
+        bin/elasticsearch-keystore add-file gcs.client.default.credentials_file /opt/secrets/serviceaccount.json
+
+    else
+        echo "GCS_REPOSITORY_CONFIG is there but /opt/secrets/serviceaccount.json is missing..!"
+        exit 1
+    fi
+elif [ ! -z "${S3_REPOSITORY_CONFIG}" ]; then
+    if [ ! -z "${S3_ACCESS_KEY}" ] && [ ! -z "${S3_SECRET_KEY}" ] ; then
+        echo "Configuring plugin : repository-s3 for ES version ${ES_VERSION}"
+        yes | bin/elasticsearch-plugin install file:///tmp/repository-s3-${ES_VERSION}.zip
+        rm -rf /tmp/repository-s3-${ES_VERSION}.zip
+
+        echo "${S3_ACCESS_KEY}" | bin/elasticsearch-keystore add s3.client.default.access_key
+        echo "${S3_SECRET_KEY}" | bin/elasticsearch-keystore add s3.client.default.secret_key
+
+    else
+        echo "S3_REPOSITORY_CONFIG is there but S3_ACCESS_KEY or/and S3_SECRET_KEY is/are missing..!"
+        exit 1
+    fi
+else
+    echo "No Snapshot configuration executing...!"
 fi
+
+
 
 if [ ! -z "${AUTH_CONFIG}" ] ; then
 # readonlyrest configuration
