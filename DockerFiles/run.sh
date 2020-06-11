@@ -97,8 +97,7 @@ else
 fi
 
 
-
-if [ ! -z "${AUTH_CONFIG}" ] ; then
+if [ "${AUTH_CONFIG}" = true ] ; then
 # readonlyrest configuration
 echo "Configuring readonlyrest for ES version ${ES_VERSION}"
 yes | bin/elasticsearch-plugin install file:///tmp/readonlyrest-1.18.7_es${ES_VERSION}.zip
